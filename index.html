@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cartas Contra La Humanidad</title>
+</head>
+<body>
+    <div class="all">
+        <div class="grid_container">
+            <div onclick="SelNegras()" class="button">
+                <p>Sacar Una Carta Negra</p>
+            </div>
+            <div onclick="SelBlancas()" class="button">
+                <p>Sacar Tus Cartas Blancas</p>
+            </div>
+        </div>
+
+        <div class="card_container">
+            <div class="negra_container">
+                <div id="cn" class="negra">* * *</div>
+            </div>
+
+            <div class="mazo_container">
+                <div id="b0" id="c" class="blanca" onclick="Carta(0)">* * *</div>
+                <div id="b1" id="c" class="blanca" onclick="Carta(1)">* * *</div>
+                <div id="b2" id="c" class="blanca" onclick="Carta(2)">* * *</div>
+                <div id="b3" id="c" class="blanca" onclick="Carta(3)">* * *</div>
+                <div id="b4" id="c" class="blanca" onclick="Carta(4)">* * *</div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        * {
+            user-select: none;
+            font-size: 20px;
+            font-family: monospace;
+        }
+        
+        body {
+            background-color: #CCC5B9;
+        }
+        
+        .all {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .grid_container {
+            position: relative;
+            display: grid;
+            padding: 1vw 25vw 1vw 25vw;
+            grid-template-columns: 1fr 1fr;
+            gap: 1vw;
+            color: #CCC5B9;
+        }
+        
+        .button {
+            text-align: center;
+            border-radius: 20px;
+            background-color: #403D39;
+            box-shadow: 5px 5px 15px rgba(64, 61, 57, .6);
+            cursor: pointer;
+        }
+        
+        
+        .button > p {
+            text-shadow: 0 3px 2px #252422;
+            transition: .2s;
+        }
+        
+        .button:hover > p {
+            color: #FFFCF2;
+            margin-bottom: 24px;
+            margin-top: 16px !important;
+            transition: .2s;
+        }
+        
+        .negra_container {
+            display: flex;
+            justify-content: center;
+            padding-top: 5vh;
+        }
+        
+        .negra {
+            display: flex;
+            justify-content: center;
+            align-items:flex-start;
+            border-radius: 20px;
+            padding: 20px;
+            width: 50mm;
+            height: 80mm;
+            color: #FFFCF2;
+            background-color: #252422;
+            box-shadow: 5px 5px 15px rgba(64, 61, 57, .6);
+        }
+        
+        .mazo_container {
+            display: flex;
+            flex-flow: row;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            margin-top: 10vh;
+        }
+        
+        .blanca {
+            display: flex;
+            justify-content: center;
+            align-items:flex-start;
+            border-radius: 20px;
+            padding: 20px;
+            width: 50mm;
+            height: 80mm;
+            color: #252422;
+            background-color: #FFFCF2;
+            box-shadow: 5px 5px 15px rgba(64, 61, 57, .6);
+            transition: .2s;
+            cursor: pointer;
+        }
+        
+        .blanca:hover {
+            margin-top: -10px;
+            transition: .2s;
+        }
+        
+        html {
+          line-height: 1.15; /* 1 */
+          -webkit-text-size-adjust: 100%; /* 2 */
+        }
+        
+        body {
+          margin: 0;
+        }
+        
+        main {
+          display: block;
+        }
+        
+        h1 {
+          font-size: 2em;
+          margin: 0.67em 0;
+        }
+        
+        hr {
+          box-sizing: content-box; /* 1 */
+          height: 0; /* 1 */
+          overflow: visible; /* 2 */
+        }
+        
+        pre {
+          font-family: monospace, monospace; /* 1 */
+          font-size: 1em; /* 2 */
+        }
+        
+        a {
+          background-color: transparent;
+        }
+        
+        abbr[title] {
+          border-bottom: none; /* 1 */
+          text-decoration: underline; /* 2 */
+          text-decoration: underline dotted; /* 2 */
+        }
+        
+        b,
+        strong {
+          font-weight: bolder;
+        }
+        
+        code,
+        kbd,
+        samp {
+          font-family: monospace, monospace; /* 1 */
+          font-size: 1em; /* 2 */
+        }
+        
+        small {
+          font-size: 80%;
+        }
+        
+        sub,
+        sup {
+          font-size: 75%;
+          line-height: 0;
+          position: relative;
+          vertical-align: baseline;
+        }
+        
+        sub {
+          bottom: -0.25em;
+        }
+        
+        sup {
+          top: -0.5em;
+        }
+        
+        img {
+          border-style: none;
+        }
+        
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+          font-family: inherit; /* 1 */
+          font-size: 100%; /* 1 */
+          line-height: 1.15; /* 1 */
+          margin: 0; /* 2 */
+        }
+        
+        button,
+        input { /* 1 */
+          overflow: visible;
+        }
+        
+        button,
+        select { /* 1 */
+          text-transform: none;
+        }
+        
+        button,
+        [type="button"],
+        [type="reset"],
+        [type="submit"] {
+          -webkit-appearance: button;
+        }
+        
+        button::-moz-focus-inner,
+        [type="button"]::-moz-focus-inner,
+        [type="reset"]::-moz-focus-inner,
+        [type="submit"]::-moz-focus-inner {
+          border-style: none;
+          padding: 0;
+        }
+        
+        button:-moz-focusring,
+        [type="button"]:-moz-focusring,
+        [type="reset"]:-moz-focusring,
+        [type="submit"]:-moz-focusring {
+          outline: 1px dotted ButtonText;
+        }
+        
+        fieldset {
+          padding: 0.35em 0.75em 0.625em;
+        }
+        
+        legend {
+          box-sizing: border-box; /* 1 */
+          color: inherit; /* 2 */
+          display: table; /* 1 */
+          max-width: 100%; /* 1 */
+          padding: 0; /* 3 */
+          white-space: normal; /* 1 */
+        }
+        
+        progress {
+          vertical-align: baseline;
+        }
+        
+        textarea {
+          overflow: auto;
+        }
+        
+        [type="checkbox"],
+        [type="radio"] {
+          box-sizing: border-box; /* 1 */
+          padding: 0; /* 2 */
+        }
+        
+        [type="number"]::-webkit-inner-spin-button,
+        [type="number"]::-webkit-outer-spin-button {
+          height: auto;
+        }
+        
+        [type="search"] {
+          -webkit-appearance: textfield; /* 1 */
+          outline-offset: -2px; /* 2 */
+        }
+        
+        [type="search"]::-webkit-search-decoration {
+          -webkit-appearance: none;
+        }
+        
+        ::-webkit-file-upload-button {
+          -webkit-appearance: button; /* 1 */
+          font: inherit; /* 2 */
+        }
+        
+        details {
+          display: block;
+        }
+        
+        summary {
+          display: list-item;
+        }
+        
+        template {
+          display: none;
+        }
+        
+        [hidden] {
+          display: none;
+        }
+        html {
+          line-height: 1.15; /* 1 */
+          -webkit-text-size-adjust: 100%; /* 2 */
+        }
+        
+        body {
+          margin: 0;
+        }
+        
+        main {
+          display: block;
+        }
+        
+        h1 {
+          font-size: 2em;
+          margin: 0.67em 0;
+        }
+        
+        hr {
+          box-sizing: content-box; /* 1 */
+          height: 0; /* 1 */
+          overflow: visible; /* 2 */
+        }
+        
+        pre {
+          font-family: monospace, monospace; /* 1 */
+          font-size: 1em; /* 2 */
+        }
+        
+        a {
+          background-color: transparent;
+        }
+        
+        abbr[title] {
+          border-bottom: none; /* 1 */
+          text-decoration: underline; /* 2 */
+          text-decoration: underline dotted; /* 2 */
+        }
+        
+        b,
+        strong {
+          font-weight: bolder;
+        }
+        
+        code,
+        kbd,
+        samp {
+          font-family: monospace, monospace; /* 1 */
+          font-size: 1em; /* 2 */
+        }
+        
+        small {
+          font-size: 80%;
+        }
+        
+        sub,
+        sup {
+          font-size: 75%;
+          line-height: 0;
+          position: relative;
+          vertical-align: baseline;
+        }
+        
+        sub {
+          bottom: -0.25em;
+        }
+        
+        sup {
+          top: -0.5em;
+        }
+        
+        img {
+          border-style: none;
+        }
+        
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+          font-family: inherit; /* 1 */
+          font-size: 100%; /* 1 */
+          line-height: 1.15; /* 1 */
+          margin: 0; /* 2 */
+        }
+        
+        button,
+        input { /* 1 */
+          overflow: visible;
+        }
+        
+        button,
+        select { /* 1 */
+          text-transform: none;
+        }
+        
+        button,
+        [type="button"],
+        [type="reset"],
+        [type="submit"] {
+          -webkit-appearance: button;
+        }
+        
+        button::-moz-focus-inner,
+        [type="button"]::-moz-focus-inner,
+        [type="reset"]::-moz-focus-inner,
+        [type="submit"]::-moz-focus-inner {
+          border-style: none;
+          padding: 0;
+        }
+        
+        button:-moz-focusring,
+        [type="button"]:-moz-focusring,
+        [type="reset"]:-moz-focusring,
+        [type="submit"]:-moz-focusring {
+          outline: 1px dotted ButtonText;
+        }
+        
+        fieldset {
+          padding: 0.35em 0.75em 0.625em;
+        }
+        
+        legend {
+          box-sizing: border-box; /* 1 */
+          color: inherit; /* 2 */
+          display: table; /* 1 */
+          max-width: 100%; /* 1 */
+          padding: 0; /* 3 */
+          white-space: normal; /* 1 */
+        }
+        
+        progress {
+          vertical-align: baseline;
+        }
+        
+        textarea {
+          overflow: auto;
+        }
+        
+        [type="checkbox"],
+        [type="radio"] {
+          box-sizing: border-box; /* 1 */
+          padding: 0; /* 2 */
+        }
+        
+        [type="number"]::-webkit-inner-spin-button,
+        [type="number"]::-webkit-outer-spin-button {
+          height: auto;
+        }
+        
+        [type="search"] {
+          -webkit-appearance: textfield; /* 1 */
+          outline-offset: -2px; /* 2 */
+        }
+        
+        [type="search"]::-webkit-search-decoration {
+          -webkit-appearance: none;
+        }
+        
+        ::-webkit-file-upload-button {
+          -webkit-appearance: button; /* 1 */
+          font: inherit; /* 2 */
+        }
+        
+        details {
+          display: block;
+        }
+        
+        summary {
+          display: list-item;
+        }
+        
+        template {
+          display: none;
+        }
+        
+        [hidden] {
+          display: none;
+        }
+    </style>
+
+    <script>
+        Negras = ["La normativa de la Secretaría de Transporte ahora Drohibe en los aviones.",
+        "Es una pena que hoy en día los jovenes se están metiendo con _____.",
+        "A Nisman lo vieron con _____.",
+        "Ví a mi tío cojiendose a _____.",
+        "¿Que es lo mejor para un otaku?",
+        "Con más de 15mil muertes, la plaga del _____ es la más mortal hasta la fecha",
+        "En 1000 años, cuando el papel moneda sea una memoria distante, va a ser nuestra moneda.",
+        "La Asociación de Fútbol Argentino ha prohibido Dor dar a los jugadores una ventaja injusta.",
+        "¿Cuál es el placer culposo de Batman?",
+        "Lo nuevo de JK Rowling: Harry Potter y la Cámara de _____.",
+        "¿Qué me traje de vuelta de Paraguay?",
+        "¿_____? Hay una app para eso.",
+        "Jugar al uno con _____.",
+        "¿que es lo que mas disfrutan los japonenses?",
+        "El fetiche de _____ es _____.",
+        "Para mejorar el pais se necesita  _____.",
+        "Se dice que el ministerio de la mujer sirve para _____.",
+        "_____.¿A qué no podes comer solo una?",
+        "_____ es tan divertido como jugar con negros.",
+        "¿Cuál es mi sustituto para no usar drogas?",
+        "Cuando los EEUU y la URSS corrían la carrera espacial, el gobierno Argentino dedicó millones de pesos a la investigación de _____.",
+        "En la nueva película original del Disney Channel, Hannah Montana se enfrenta a _____ por la primera vez.",
+        "¿Cuál es mi poder secreto?",
+        "¿Cuál es la nueva dieta de moda?",
+        "Se rumorea que en la habitacion presidencial hacen _____.",
+        "En la casa rosada hay/se hace _____.",
+        "Pisé un perro muerto y de dentro salio _____.",
+        "Messi hizo un crossover con _____.",
+        "¿Qué hace una mujer a las 3 de la mañana?",
+        "Vi a un niño africano comiendo _____.",
+        "¿Qué comió Vin Diesel para la cena?",
+        "Con suerte podré escapar de _____.",
+        "No podia pagar el alquiler, pero gracias a _____ si pude",
+        "Cuando el Faraón se mantuvo en su postura, Moisés llamó una Plaga de _____.,",
+        "¿Qué hago para mantener estable mi relación amorosa?,",
+        "¿Qué es lo más crujiente?,",
+        "¿Qué es lo mejor para un sanguche de milanesa?",
+        "¿Qué es lo mas rico del dulce de leche?",
+        "¿Como se me rompio el renault 12?",
+        "¿Qué onda wacho?, ¿tene' hora?",
+        "¿Qué es lo mejor para matar negros?",
+        "¿Por qué estoy preso?",
+        "¿Qué es lo que mas le gusta a los judios?",
+        "A la madre de mi amigo le encanta _____.",
+        "Siempre que me encuantro con _____ le muestro _____.",
+        "En la cárcel de Devoto se dice que podes cambiar 200 cigarrillos por _____.,",
+        "Después del terremoto, Sean Penn llevó _____ a la gente de Haití.",
+        "Ahora, en véz de carbón, Papá Noel le da _____ a los chicos malos.",
+        "La vida para los pueblos originarios cambió drásticamente cuando el hombre blanco les mostró _____.",
+        "En los momentos finales de Michael Jackson, pensó en",
+        "A la gente blanca le gusta _____.",
+        "¿Por qué me duele todo?",
+        "Asesiné a un bebé con _____.",
+        "La casa de mi abuelo huele a _____.",
+        "Una cena romántica a la luz de las velas estaría incompleta sin _____.",
+        "¿Qué llevaría en un viaje al pasado para convencer a la gente de que soy un poderoso hechicero?",
+        "La excursión del curso fue arruinada completamente por _____.",
+        "¿Qué es el mejor amigo de una chica?",
+        "Cuando sea Presidente de la Argentina, voy a crear el Ministerio de _____.",
+        "¿Qué me están escondiendo mis padres?",
+        "Me pidió nudes, le mostré mi _____ y se fué",
+        "¿Qué nunca falla para animar una fiesta?",
+        "¿Qué mejora con la edad?",
+        "_____: Rico hasta la última gota.",
+        "Tengo 99 problemas, pero _____ no es uno.",
+        "_____.es un trapito",
+        "El nuevo Gran Hermano Famosos va a tener 8 famosos de segunda viviendo con _____.",
+        "¿Qué encontraría la abuela perturbador, pero extrañamente encantador?",
+        "¿Qué es lo más emo?",
+        "Durante el sexo, me gusta pensar en _____.",
+        "¿Qué terminó mi última relación?",
+        "¿Qué es ese ruido?",
+        "CFK declaró que a partir de hoy, será legal _____.",
+        "_____.Así quiero morir.",
+        "¿Por qué estoy pegajoso?",
+        "¿Cuál es el próximo juguete de La Cajita Feliz?",
+        "¿De qué hay un montón en el cielo?",
+        "No se con que armas se luchara la tercera guerra mundial, pero la cuarta se luchara con _____.",
+        "¿Qué siempre lograra llevarte a la cama?",
+        "_____: Probado en niños, aprobado por madres.",
+        "¿Por qué no me puedo dormir por las noches?",
+        "¿Qué es ese olor?",
+        "¿Qué ayuda a CFK a relajarse?",
+        "Así termina el mundo, no con un bang, sino con _____.",
+        "Llega a la Calle Corrientes este verano, _____: El Musical.",
+        "Antropólogos han descubierto recientemente a una tribu primitiva que adora _____.",
+        "Pero antes de matarlo, Sr. Bond, debo mostrarle _____.",
+        "Estudios muestran que las ratas de laboratorio recorren laberintos 50% más rápido después de ser expuestas a _____.",
+        "A continuación, en ESPN+: El torneo mundial de _____.",
+        "Cuando sea billonario, erigiré una estatua de 15 metros de altura conmemorando _____.",
+        "Con la intención de atraer más público, el Museo Nacional de Ciencias Naturales abrió una exhibición interactiva de _____.",
+        "Yo me pregunto, ¿para qué sirve la guerra?",
+        "¿Qué me da gases incontrolables?",
+        "¿A qué huele la gente mayor?",
+        "La medicina alternativa está usando ahora las propiedades curativas de _____.",
+        "¿Qué prefiere Francisco de Narváez?",
+        "Durante el frecuentemente no tenido en cuenta Período Marrón de Picasso, él produjo cientos de pinturas de _____.",
+        "¿Qué no queres encontrar en tu comida China?",
+        "Tomo para olvidar _____.",
+        "_____. Choca los 5, papá.",];
+
+        Blancas = ["Una maldición gitana.",
+        "Un minuto de silencio.",
+        "Mucho pibe, poca mina.",
+        "minas de proximidad.",
+        "Niños triturados.",
+        "Matar a los furros.",
+        "Hacerte de los insufribles 'furros'.",
+        "Cum.",
+        "Un policía honesto, sin nada que perder.",
+        "Hambruna.",
+        "Mirtha Legrand.",
+        "Bacteria come-carne.",
+        "Serpientes sexuales voladoras.",
+        "Que no te importe un carajo el tercer mundo.",
+        "Sexting.",
+        "papo oceanico.",
+        "Criaturas cambia-aspecto.",
+        "Estrellas porno.",
+        "Saquear y violar.",
+        "72 vírgenes.",
+        "Persecusión y tiroteo.",
+        "Una paradoja espacio-temporal.",
+        "Autentica comida mejicana.",
+        "Bijouterie de Once.",
+        "Camara de gas.",
+        "Goku.",
+        "Anulacion testicular.",
+        "Retraccion anal.",
+        "Peruanos.",
+        "Judios.",
+        "Estreñimiento rectal.",
+        "Camion explosivo.",
+        "Hacerse el banana.",
+        "Consultores.",
+        "Deuda impagable.",
+        "Extrangulamiento de prepucio.",
+        "Bosta.",
+        "Complejo de Elektra.",
+        "dildo de 33cm.",
+        "El 10 de Pachano.",
+        "Peronistas",
+        "Vomito.",
+        "Tirar un candelabro sobre tus enemigos y subir colgado de la soga.",
+        "Carlos Saul Menem.",
+        "Desnudo frontal total.",
+        "Inyecciones hormonales.",
+        "Poner un huevo.",
+        "Viejo Pelado.",
+        "Consoladores.",
+        "Desnudarse y mirar Nickelodeon.",
+        "Fingir que te importa.",
+        "Hacer el ridículo en público.",
+        "Compartir jeringas.",
+        "Mocos.",
+        "Los impuestos",
+        "La inevitable muerte por calor del universo.",
+        "El milagro del nacimiento.",
+        "El apocalipsis.",
+        "Sacar el amigo.",
+        "Privilegios de la gente blanca.",
+        "Obligaciones de casada.",
+        "El Hamburglar (McDonalds).",
+        "Desodorante AXE.",
+        "La Sangre de Cristo.",
+        "Accidentes horroríficos con láser para remoción de pelo.",
+        "BATMAN!!!.",
+        "Agricultura.",
+        "Un mongoloide robusto.",
+        "Selección natural.",
+        "Abortos hechos con perchas.",
+        "Comerse todas las galletitas antes de la venta de galletas para el SIDA.",
+        "El escote de la diputada Hot.",
+        "World of Warcraft.",
+        "Proteger a una amiga de un hinchapelotas.",
+        "Obesidad.",
+        "Un montaje homoerótico de Voleibol.",
+        "Mandíbula trabada.",
+        "Un ritual de apareamiento.",
+        "Torsión testicular.",
+        "Sushi de Tenedor Libre.",
+        "Ricardo Fort.",
+        "Queso caliente.",
+        "Ataques de Velocirraptors.",
+        "Sacarte la remera.",
+        "Smegma.",
+        "Alcoholismo.",
+        "Un hombre de mediana edad andando en rollers.",
+        "Super Rayo Cariñosito",
+        "Tener arcadas y vomitar.",
+        "Chupetines demasiado grandes.",
+        "Odiarse a uno mismo.",
+        "Niños con correas.",
+        "Juego previo de medio pelo.",
+        "La Biblia.",
+        "Porno extremo alemán.",
+        "Estar prendido fuego.",
+        "Embarazo adolescente.",
+        "Gandhi.",
+        "Dejar un mensaje de voz incómodo.",
+        "Uppercuts.",
+        "Representantes de Servicio al Consumidor.",
+        "Una erección que dure más de 4 horas.",
+        "Mis genitales.",
+        "Ir de levante a una clínica de abortos.",
+        "Ciencia.",
+        "Sexo oral no reciprocado.",
+        "Aves que no pueden volar.",
+        "Una buena linea.",
+        "Tortura por ahogamiento simulado.",
+        "Un desayuno balanceado.",
+        "El Normal 4.",
+        "Sacarle un dulce a un niño. De verdad.",
+        "Un Sol para los Chicos.",
+        "Rascarse el culo a escondidas.",
+        "Post-it pasivo-agresivos.",
+        "El equipo de gimnasia de China.",
+        "Pasarse a La Caja de Ahorro.",
+        "Mear un poquito.",
+        "Video casero de Claribel Medina llorando mientras come una viandita Cormillot.",
+        "Eyaculaciones nocturnas.",
+        "Los judíos.",
+        "Mis curvas.",
+        "Muslos poderosos.",
+        "Guiñarle el ojo a gente mayor.",
+        "Mr Musculo, saliendo de la nada.",
+        "Una suave caricia en el interior del muslo.",
+        "Tensión sexual.",
+        "La fruta prohibida.",
+        "Skeleton.",
+        "Whiskas.",
+        "Ser rico.",
+        "Dulce venganza.",
+        "Menemistas.",
+        "Un antílope con gases.",
+        "Natalie Portman.",
+        "Una tocadita disimulada.",
+        "Pilotos Kamikaze.",
+        "Sean Connery.",
+        "La legislación homosexual.",
+        "El paraguayo trabajador en serio.",
+        "Un pajaro en una jaula cubierta.",
+        "Monaguillos.",
+        "La Caja Vengadora.",
+        "Enojarte tanto que se te para.",
+        "Muestras gratis.",
+        "Mucho ruido y pocas nueces.",
+        "Hacer lo correcto.",
+        "La Asamblea del año XIII.",
+        "Lactación.",
+        "Paz mundial.",
+        "RoboCop.",
+        "Cabeza de termo.",
+        "Justin Bieber.",
+        "Oompa-Loompas.",
+        "Gemido Tirolés.",
+        "Pubertad.",
+        "Fantasmas.",
+        "Lolas hechas asimétricas.",
+        "Las Manos Mágicas.",
+        "Colarse los dedos.",
+        "Mariano Grondona agarrándose el escroto en un gancho de cortina.",
+        "Naranju.",
+        "Brutalidad policíaca.",
+        "El petiso orejudo.",
+        "Preadolescentes.",
+        "Escalpar.",
+        "Tweeting.",
+        "Darth Vader.",
+        "Una tirada de goma decepcionante.",
+        "Exactamente lo que esperarías.",
+        "Esperar un eructo y terminar vomitando en el piso.",
+        "Células madre de embriones.",
+        "Escote elegante y pronunciado.",
+        "No ponerla nunca.",
+        "Una lobotomia hecha con un picahielo.",
+        "Tom Cruise.",
+        "Herpes bucal.",
+        "Cachalote.",
+        "Gente sin casa.",
+        "Tercera base.",
+        "Incesto.",
+        "Pac-man traga-leche.",
+        "Un mimo teniendo un ataque.",
+        "Hulk Hogan.",
+        "Dios.",
+        "Lavarse los pliegues.",
+        "Lluvia dorada.",
+        "Emociones.",
+        "Lamer cosas para marcar territorio.",
+        "Cerveza Patagonia.",
+        "La placenta.",
+        "Combustión humana espontánea.",
+        "Amigos con beneficios.",
+        "Pintar con los dedos.",
+        "Olor a abuelo.",
+        "Morirse de colera.",
+        "Mis demonios internos.",
+        "Un trapo de piso empapado en pis de gato.",
+        "Domingo Cavallo.",
+        "Acurrucarse.",
+        "El porro.",
+        "Peleas de gallos.",
+        "Fuego aliado.",
+        "Juan Domingo Perón.",
+        "Una fiesta de cumpleaños decepcionante.",
+        "Una mina canchera.",
+        "El equipo de Olimpiadas de matematica.",
+        "Un pequeño caballito.",
+        "William Shatner.",
+        "Cabalgar hacia el horizonte.",
+        "Destrucción mutua garantizada.",
+        "Pederastas.",
+        "Levadura.",
+        "Robo de tumbas.",
+        "Comerse el último yaguareté.",
+        "Catapultas.",
+        "Gente pobre.",
+        "Olvidarte de la Vuelta de Obligado.",
+        "El Meneadito.",
+        "La Fuerza.",
+        "El perreo.",
+        "Diseño inteligente.",
+        "Boca floja.",
+        "SIDA.",
+        "Fotos de tetas.",
+        "The Übermensch.",
+        "Lilita Carrio.",
+        "Supermatch.",
+        "Drogarse zarpado.",
+        "Cientologia.",
+        "La envidia del pene.",
+        "Rezar para curar lo gay.",
+        "Retozar.",
+        "Dos enanos cagando en un balde.",
+        "El Ku Klux Klan.",
+        "Genghis Khan.",
+        "Metanfetamina.",
+        "Servidumbre feudal.",
+        "Cuidado con los extraños.",
+        "Simón dice.",
+        "La carrera actoral de Martin Palermo.",
+        "Caminar dando saltitos de felicidad.",
+        "Justicia por mano propia.",
+        "Sobrecompensar.",
+        "Un bukkake pixelado.",
+        "Una vida de tristezas.",
+        "Racismo.",
+        "Lanzamiento de enanos.",
+        "Sol y arcoiris.",
+        "Un mono fumando un habano.",
+        "Inundación instantánea.",
+        "El testículo que le falta a Lance Armstrong.",
+        "Arcadas.",
+        "Los terroristas.",
+        "Britney Spears a los 55 años.",
+        "Actitud.",
+        "Largarse a cantar y bailar.",
+        "Lepra.",
+        "Agujero de gloria.",
+        "Pezones con piercings.",
+        "El corazón de un niño.",
+        "¡Cachorritos!.",
+        "Despertar semi desnudo en el estacionamiento de un McDonalds.",
+        "Tela quirúrgica.",
+        "La vagina de Maitena.",
+        "Ni cu ni hue.",
+        "Escuchar y parafrasear.",
+        "Legalización en contra de una etnia.",
+        "La Tortuga Manuelita.",
+        "La mano invisible.",
+        "Esperar hasta el casamiento.",
+        "Una estupidez inimaginable.",
+        "Euphoria™ by Calvin Klein.",
+        "Regalar un regalo que te dieron.",
+        "Auto canibalismo.",
+        "Disfunción erectil.",
+        "Mi colección de juguetes sexuales de alta tecnología.",
+        "El Papa.",
+        "Gente blanca.",
+        "Porno japonés con tentáculos.",
+        "Mariano Grondona vomitando convulsamente mientras una camada de arañas cangrejo incuban en su cerebro y salen por sus conductos lagrimales.",
+        "Demasiado gel para el pelo.",
+        "Seppuku.",
+        "Parejas de baile sobre hielo del mismo sexo.",
+        "Hacer trampa en las Paralimpiadas.",
+        "Carisma.",
+        "Keanu Reeves.",
+        "Sean Penn.",
+        "Mambru.",
+        "Un vistazo.",
+        "Bancarse la mierda del otro.",
+        "La menstruación.",
+        "Niños con cancer en el culo.",
+        "Una sorpresa lactea.",
+        "El Sur.",
+        "La violación de nuestros más básicos derechos humanos.",
+        "Violación en una cita.",
+        "Ser fabuloso/a.",
+        "Necrofilia.",
+        "Centauros.",
+        "El mundo de Beakman.",
+        "Negros.",
+        "Caballerosidad.",
+        "Sanguchitos de miga de kiosko.",
+        "Perras!.",
+        "Los extremadamente lisiados.",
+        "Huérfanos adorables.",
+        "MechaHitler.",
+        "Diarrea explosiva.",
+        "Otra maldita película de vampiros.",
+        "Resortes enredados.",
+        "El verdadero significado de la navidad.",
+        "Estrògeno.",
+        "Chori-pan crudo de la Costanera.",
+        "La cosa esa que electrocuta tus abdominales.",
+        "Pasar un cálculo renal.",
+        "Un orto desteñido.",
+        "Michael Jackson.",
+        "Implantes Cibernéticos.",
+        "Hombres que no llaman.",
+        "Sábanas infectadas con viruela.",
+        "Masturbación.",
+        "Discurso oligarca.",
+        "Pedos vaginales.",
+        "Ocultar el mástil.",
+        "Ropa interior comestible.",
+        "Viagra.",
+        "Sopa demasiado caliente.",
+        "Mahoma (alabado sea él).",
+        "Sexo sorpresa!",
+        "Un pebete de $5.",
+        "Emborracharse solo.",
+        "Manos de manteca.",
+        "Múltiples puñaladas.",
+        "Cagarse encima.",
+        "Abuso de menores.",
+        "Bolas anales.",
+        "Muerte de civiles.",
+        "Sacarla y acabar afuera.",
+        "Robert Downey, Jr.",
+        "Mortadela.",
+        "Alto sombrero.",
+        "Kim Jong-il.",
+        "Un vello pubico.",
+        "Fraternidades judías.",
+        "El negro que se muere primero.",
+        "Hacerlo por atrás.",
+        "Darle de comer a Lilita Carrio.",
+        "Enseñarle a un robot a amar.",
+        "Seguí así y cobras.",
+        "Un molino lleno de cadáveres.",
+        "El Tigre Tony.",
+        "Usar la ropa interior al revés para no tener que lavar.",
+        "Un rayo mortal.",
+        "El techo laboral.",
+        "Una heladerita llena de organos.",
+        "El sueño americano.",
+        "Fondo blanco.",
+        "Cuando te tiras un pedo y viene con sorpresa.",
+        "Retractarse.",
+        "Bebes muertos.",
+        "El prepucio.",
+        "Solos de saxo.",
+        "Gallegos.",
+        "Un feto.",
+        "Disparar un rifle al aire mientras te coges duro a un cerdo histérico.",
+        "Francisco de Narváez.",
+        "Amputados.",
+        "Mejoramiento racial.",
+        "Mi estado amoroso.",
+        "Christopher Walken.",
+        "Abejas.",
+        "Porno de Harry Potter.",
+        "La universidad.",
+        "Emborracharse con Lysterine.",
+        "Nazis.",
+        "200 gramos de delicioso paco.",
+        "Stephen Hawking diciendo chanchadas.",
+        "Padres muertos.",
+        "Teoria de desarrollo cognitivo de Piaget.",
+        "Pulgares oponibles.",
+        "Preguntas de exámen racistas.",
+        "Paparruchadas.",
+        "Motosierras en lugar de manos.",
+        "Nicholas Cage.",
+        "Concursos de belleza de niñas.",
+        "Explosiones.",
+        "Oler pegamento.",
+        "Mariano Grondona siendo acosado por una bandada de buitres.",
+        "Represión.",
+        "Un pañuelo con cloroformo.",
+        "Mi vagina.",
+        "Pantalones de montar de cuero.",
+        "Un asesinato terrible.",
+        "Dar el 110%.",
+        "Su alteza real, la Reina Elizabeth II.",
+        "Campaña del Desierto.",
+        "Ser dejado de lado.",
+        "Goblins.",
+        "Esperanza.",
+        "El Padre Mugica.",
+        "Manicero.",
+        "Mi alma.",
+        "Loca linda.",
+        "Vikingos.",
+        "Gente que está buena.",
+        "Seducción.",
+        "Un complejo de Edipo.",
+        "Gansos.",
+        "Calentamiento global.",
+        "Música New Age.",
+        "Empanadas congeladas de Sibarita.",
+        "Poner cara de puchero.",
+        "Homicidio imprudente con vehículo a motor.",
+        "Voto femenino.",
+        "Un forro pinchado.",
+        "Forum, la corte del pueblo.",
+        "Chicos africanos.",
+        "La masacre de Carmen de Patagones.",
+        "Cristina Fernández de Kirchner.",
+        "Asiáticos que no saben matemática.",
+        "Ancianos japoneses.",
+        "Intercambiar saludos de protocolo.",
+        "Heteronormatividad.",
+        "Partir el Mar Rojo.",
+        "Arnold Schwarzenegger.",
+        "Mamada en el auto.",
+        "Abdominales como una plancha de ravioles.",
+        "Pan dulce.",
+        "Un león de zoologico triste.",
+        "Una bolsa de habichuelas mágicas.",
+        "Malas elecciones de vida.",
+        "Mi vida sexual.",
+        "Auschwitz.",
+        "Una tortuga mordiéndote la punta del pene.",
+        "Una detonación termonuclear.",
+        "El clitoris.",
+        "El Big Bang.",
+        "Minas terrestres.",
+        "Amigos que se comen toda la picada.",
+        "Cabras comiendose latas.",
+        "La Danza del Hada de Azúcar.",
+        "Acabar dentro de una pileta llena de lágrimas de niños.",
+        "Chupetín de carne.",
+        "Tiempo para uno mismo.",
+        "Chistes del Holocausto en el momento equivocado.",
+        "La mar de problemas.",
+        "Fantasías con bomberos.",
+        "La voz de Morgan Freeman.",
+        "Las mujeres de las publicidades de Activia.",
+        "Crecimiento natural del pene.",
+        "Ser mago, la puta madre.",
+        "Piercings genitales.",
+        "Travestís aceptables.",
+        "Peleas de almohadas cachondas.",
+        "Pelotas.",
+        "La abuela.",
+        "Fricción.",
+        "Aguafiestas.",
+        "Tirarte un pedo y hacerte el boludo.",
+        "Tratar mal a los niños.",
+        "Llenar la casa de trampas para cagar a los ladrones.",
+        "Colchón de espuma con memoria de forma.",
+        "Morir.",
+        "Huracan Katrina.",
+        "Los homosexuales",
+        "La imprudencia del hombre.",
+        "Hombres.",
+        "Los Amish.",
+        "Huevos de Pterodáctilo.",
+        "Ejercicios para dinámica de grupos.",
+        "Un tumor cerebral.",
+        "El miedo mismo.",
+        "Lady Gaga.",
+        "El sodero.",
+        "Boca sucia.",
+        "Palacio.",
+        "Mancos.",
+        "Tolaba.",
+        "Pagad10s.",];
+
+        function SelNegras() {
+            CartaNegra = [];
+            randomN = Math.floor(Math.random() * Negras.length);
+            CartaNegra.push(Negras[randomN]);
+            Negras.splice(randomN, 1);
+        
+            document.getElementById("cn").innerHTML = CartaNegra;
+        }
+
+        function SelBlancas() {
+            Mazo = [];
+
+            random1 = Math.floor(Math.random() * Blancas.length);
+            Mazo.push(Blancas[random1]);
+            Blancas.splice(random1, 1);
+
+            random2 = Math.floor(Math.random() * Blancas.length);
+            Mazo.push(Blancas[random2]);
+            Blancas.splice(random2, 1);
+
+            random3 = Math.floor(Math.random() * Blancas.length);
+            Mazo.push(Blancas[random3]);
+            Blancas.splice(random3, 1);
+
+            random4 = Math.floor(Math.random() * Blancas.length);
+            Mazo.push(Blancas[random4]);
+            Blancas.splice(random4, 1);
+
+            random5 = Math.floor(Math.random() * Blancas.length);
+            Mazo.push(Blancas[random5]);
+            Blancas.splice(random5, 1);
+
+            document.getElementById("b0").innerHTML = Mazo[0];
+            document.getElementById("b1").innerHTML = Mazo[1];
+            document.getElementById("b2").innerHTML = Mazo[2];
+            document.getElementById("b3").innerHTML = Mazo[3];
+            document.getElementById("b4").innerHTML = Mazo[4];
+        }
+
+        function Carta(a){
+            document.getElementById('b'+a).style.marginTop="50vh";
+
+            setTimeout(() => {
+                randomB = Math.floor(Math.random() * Blancas.length);
+                Mazo[a] = Blancas[randomB];
+                Blancas.splice(randomB, 1);
+                document.getElementById('b'+a).innerHTML = Mazo[a];
+                document.getElementById('b'+a).style.marginTop="";
+            }, 500);
+        }
+    </script>
+
+</body>
+</html>
