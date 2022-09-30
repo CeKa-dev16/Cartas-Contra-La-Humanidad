@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="dec.css">
+    <link rel="stylesheet" href="normalize.css">
+    <meta charset="UTF-8">
+    <script src="CCLHA.js"></script>
+    <title>CCLHA</title>
+</head>
+<body>
+    <div class="all">
+        <div class="grid_container">
+            <div onclick="SelNegras()" class="button">
+                <p>Sacar Una Carta Negra</p>
+            </div>
+            <div onclick="SelBlancas()" class="button">
+                <p>Sacar Tus Cartas Blancas</p>
+            </div>
+        </div>
+
+        <div class="card_container">
+            <div class="negra_container">
+                <div id="cn" class="negra">* * *</div>
+            </div>
+
+            <div class="mazo_container">
+                <div id="b0" id="c" class="blanca" onclick="Carta(0)">* * *</div>
+                <div id="b1" id="c" class="blanca" onclick="Carta(1)">* * *</div>
+                <div id="b2" id="c" class="blanca" onclick="Carta(2)">* * *</div>
+                <div id="b3" id="c" class="blanca" onclick="Carta(3)">* * *</div>
+                <div id="b4" id="c" class="blanca" onclick="Carta(4)">* * *</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
